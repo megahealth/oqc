@@ -1,0 +1,64 @@
+<!--index.wxml-->
+<view class="container">
+  <view class='body'>
+    <view class='welcome' wx:if="{{!sn}}">
+      <image style="width: 100px; height: 100px;" src="../../images/oqc.jpg"></image>
+      <text class='title'>兆观睡眠仪出货品质检验工具</text>
+      <text class='step-title'>检测步骤</text>
+      <view class='step-items'>
+        <text>1. 给设备上电</text>
+        <text>2. 等待3分钟至设备绿灯不再快速闪烁</text>
+        <text>3. 开始扫码检测</text>
+      </view>
+    </view>
+    <view wx:if="{{sn}}" class='progress'>
+      <view class='step'>
+        <text class="num {{currentStep>=1?'steped':''}}">①</text>
+        <view class='body'>
+          <text>开始检测设备</text>
+          <text class='info'>{{sn}}</text>
+        </view>
+      </view>
+      <view class='step'>
+        <text class='num {{currentStep>=2?"steped":""}}'>②</text>
+        <view class='body'>
+          <button class='btn' wx:if="{{currentStep<2}}" disabled>检测M26</button>
+          <button class='btn' wx:if="{{currentStep>=2&&(stateCode>=200||stateCode<100)}}" type="primary" bindtap='checkM26'>检测M26</button>
+          <button class='btn' wx:if="{{currentStep>=2&&stateCode>=100&&stateCode<200}}" type="primary" disabled>检测M26</button>
+          <text class='info' wx:if="{{stateCode===0}}">等待检测</text>
+          <text class='info' wx:if="{{stateCode===100}}">开始验证……</text>
+          <text class='info' wx:if="{{stateCode===101}}">初次验证失败，正在尝试第{{time}}次验证……</text>
+          <text class='info' wx:if="{{stateCode===503}}">M26验证超时失败！</text>
+          <text class='info' wx:if="{{stateCode===200}}">M26验证通过！</text>
+        </view>
+      </view>
+      <view class='step'>
+        <text class='num {{currentStep>=3?"steped":""}}'>③</text>
+        <view class='body'>
+          <button class='btn' wx:if="{{currentStep<3}}" disabled>检测WiFi</button>
+          <button class='btn' wx:if="{{currentStep>=3&&(wifiStateCode>=200||wifiStateCode<100)}}" type="primary" bindtap='configNet'>检测WiFi</button>
+          <button class='btn' wx:if="{{currentStep>=3&&wifiStateCode>=100&&wifiStateCode<200}}" type="primary" disabled>检测WiFi</button>
+          <text class='info text-danger' wx:if="{{isAudioPlay===true}}">请调大手机音量以保证配网成功</text>
+          <text class='info' wx:if="{{wifiStateCode===0}}">等待检测</text>
+          <text class='info' wx:if="{{wifiStateCode===101}}">正在验证wifi（{{wifiTime}}s）</text>
+          <text class='info' wx:if="{{wifiStateCode===503}}">wifi验证超时失败！</text>
+          <text class='info' wx:if="{{wifiStateCode===200}}">wifi验证通过！</text>
+        </view>
+      </view>
+      <view class='step'>
+        <text class='num {{currentStep>=4?"steped":""}}'>④</text>
+        <view class='body'>
+          <button class='btn' disabled wx:if="{{currentStep<4}}">确认通过</button>
+          <button class='btn' bindtap='preePass' wx:if="{{currentStep===4}}" type='primary'>确认通过</button>
+          <text class='info' wx:if="{{passStateCode===0}}">待完成检测</text>
+          <text class='info' wx:if="{{passStateCode===200}}">设备验证通过！请继续检测</text>
+          <text class='info' wx:if="{{passStateCode===201}}">设备已验证通过！请勿重复检测</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='btm'>
+    <button type="primary" bindtap="scanCode" wx:if="{{!sn}}">扫 码 检 测</button>
+    <button type="primary" bindtap="scanCode" wx:if="{{sn}}">继 续 检 测</button>
+  </view>
+</view>

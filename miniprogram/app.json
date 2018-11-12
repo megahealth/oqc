@@ -1,0 +1,13 @@
+{
+  "cloud": true,
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundColor": "#FFF",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFF",
+    "navigationBarTitleText": "兆观·OQC",
+    "navigationBarTextStyle": "black"
+  }
+}

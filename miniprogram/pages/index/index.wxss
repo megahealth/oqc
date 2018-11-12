@@ -1,0 +1,100 @@
+/**index.wxss**/
+
+page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.container .body {
+  width: 80%;
+}
+
+.btm {
+  position: absolute;
+  bottom: 0;
+  height: 15%;
+  background: rgb(234, 237, 240);
+  width: 100%;
+  padding-top: 10%;
+}
+
+.btm button {
+  width: 70%;
+}
+
+.progress {
+  margin-top: 40px;
+  padding: 10px;
+}
+
+.progress .step {
+  margin-bottom: 30px;
+}
+
+.progress .step .num {
+  font-size: 18px;
+  line-height: 45px;
+  float: left;
+  padding-right: 10px;
+  border-right: 3px solid #888;
+  color: #888;
+}
+
+.progress .step .num.steped {
+  border-right: 3px solid #00a800;
+  color: #00a800;
+}
+
+.progress .step .body {
+  margin-left: 15px;
+  display: inline-block;
+}
+
+.progress .step .body .btn {
+  display: inline-block;
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+}
+
+.progress .step .body .info {
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #666;
+}
+
+.config-btn {
+  margin-top: 40px;
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcome image {
+  display: inline-block;
+}
+.welcome text {
+  display: block;
+  font-size: 14px;
+}
+.welcome .title {
+  font-size: 18px;
+  line-height: 34px;
+}
+.welcome .step-title {
+  margin-top: 40px;
+  font-size: 18px;
+  line-height: 34px;
+  text-align:left;
+  margin-left:40px;
+}
+.welcome .step-items {
+  float:left;
+  text-align:left;
+  margin-left:40px;
+  margin-top:20px;
+}
