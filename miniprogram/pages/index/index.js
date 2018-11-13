@@ -9,18 +9,28 @@ const app = getApp()
 // 201 设备已验证过
 // 403 未通过
 // 503 超时
+// stepCode/currentSetp
+// 0 初始值
+// 1 重新检测
+// 2 检测M26
+// 3 检测wifi
+// 4 已验证通过
 
 Page({
   data: {
     sn: '',
+    id: '',
     isPass: '',
     time: 0,
     stateCode: 0,
     wifiStateCode: 0,
     passStateCode: 0,
     isAudioPlay: false,
-    currentStep: 2,
-    wifiTime: 60
+    currentStep: 1,
+    wifiTime: 120
+  },
+  onLoad() {
+    console.log(this.data.currentStep);
   },
   scanCode() {
     this.setData({
@@ -32,7 +42,7 @@ Page({
       passStateCode: 0,
       isAudioPlay: false,
       currentStep: 2,
-      wifiTime: 60
+      wifiTime: 120
     })
     clearInterval(this.loop);
     clearInterval(this.timeLoop);
@@ -41,23 +51,78 @@ Page({
       success:res => {
         this.setData({
           sn: res.result
-        })
+        });
+        let sn = this.data.sn;
+        new AV.Query('OQC')
+          .equalTo('deviceSN', sn)
+          .first()
+          .then(device => {
+            if(device) {
+              let step = device.get('step');
+              console.log(step);
+              let id = device.get('objectId');
+              if (step == 0) { 
+                this.setData({
+                  currentStep: 2,
+                })
+              } else if (step == 4) {
+                this.setData({
+                  currentStep: 1,
+                  id: id
+                })
+              } else if (step==1||step==2||step==3) {
+                let device = AV.Object.createWithoutData('OQC', id);
+                device.destroy().then(success => {
+                  this.setData({
+                    currentStep: 2
+                  });
+                  console.log('无效记录删除成功');
+                });
+              }
+            } else {
+              let Device = new AV.Object.extend('OQC')
+              let device = new Device();
+              device.set('deviceSN', sn);
+              device.set('step', 2);
+              device.save().then(device => {
+                this.setData({
+                  currentStep: 2,
+                })
+              })
+            }
+          })
       }
     })
   },
   error(e) {
     console.log(e.detail)
   },
+  recheck() {
+    let id = this.data.id;
+    let isReChecking = false;
+    if(id && !isReChecking) {
+      isReChecking = true;
+      let device = AV.Object.createWithoutData('OQC', id);
+      device.destroy().then(success => {
+        this.setData({
+          currentStep: 2
+        });
+        isReChecking = false;
+      });
+    }
+  },
   checkM26() {
     this.setData({
       stateCode: 100
-    })
+    });
     var sn = this.data.sn;
     new AV.Query('OQC')
       .equalTo('deviceSN', sn)
       .first()
       .then(device => {
         if(device) {
+          device.set('step', 2);
+          device.save();
           const radarStatus = device.get('radarStatus');
           const wifiMac = device.get('wifiMac');
           const workStatus = device.get('workStatus');
@@ -86,7 +151,7 @@ Page({
                     time: i
                   })
                   // i++;
-                  if (i == 20) {
+                  if (i == 40) {
                     clearInterval(this.loop);
                     console.log('超时失败');
                     this.setData({
@@ -107,13 +172,7 @@ Page({
                         })
                         clearInterval(this.loop);
                       } else {
-                        // this.setData({
-                        //   stateCode: 101
-                        // })
                         console.log('第' + this.data.time + '次重试验证失败');
-                        console.log(radarStatus);
-                        console.log(wifiMac);
-                        console.log(workStatus);
                       }
                     }
                   }
@@ -125,6 +184,7 @@ Page({
           var Device = new AV.Object.extend('OQC')
           var device = new Device();
           device.set('deviceSN', sn);
+          device.set('step', 2);
           device.save().then(device => {
             console.log('设备记录初始化');
             this.loop = setInterval(() => {
@@ -156,17 +216,12 @@ Page({
                         this.setData({
                           stateCode: 200,
                           currentStep: 3
-                        })
+                        });
+                        device.set('step', 3);
+                        device.save();
                         clearInterval(this.loop);
                       } else {
                         console.log('第' + this.data.time + '次重试验证失败');
-                        // this.setData({
-                        //   stateCode: 101,
-                        //   time: i
-                        // })
-                        console.log(radarStatus);
-                        console.log(wifiMac);
-                        console.log(workStatus);
                       }
                     }
                   }
@@ -184,14 +239,15 @@ Page({
     innerAudioContext.src = 'cloud://oqc-d93079.6f71-oqc-d93079/confignet2.m4a'
     innerAudioContext.loop = true
     innerAudioContext.onPlay(() => {
-      console.log('开始播放');
-      this.setData({
-        isAudioPlay: true
-      }),
-        this.setData({
-          wifiStateCode: 101
-        });
-      var sn = this.data.sn;
+      console.log('播放一次');
+    })
+    this.setData({
+      isAudioPlay: true,
+      wifiStateCode: 101,
+      wifiTime: 120
+    });
+    var sn = this.data.sn;
+    this.wifiLoop = setInterval(() => {
       new AV.Query('OQC')
         .equalTo('deviceSN', sn)
         .first()
@@ -203,77 +259,40 @@ Page({
               this.setData({
                 wifiStateCode: 200,
                 currentStep: 4,
-                wifiTime: 60
+                wifiTime: 120,
+                isAudioPlay: false
               }),
-                clearInterval(this.timeLoop);
-            }
-          }
-        })
-      this.wifiLoop = setInterval(() => {
-        new AV.Query('OQC')
-          .equalTo('deviceSN', sn)
-          .first()
-          .then(device => {
-            if (device) {
-              const isWifiEnabled = device.get('isWifiEnabled');
-              if (isWifiEnabled == 1) {
-                console.log('设备wifi验证通过');
-                this.setData({
-                  wifiStateCode: 200,
-                  currentStep: 4,
-                  wifiTime: 60,
-                  isAudioPlay: false
-                }),
+                device.set('step', 4);
+              device.set('isPass', 1);
+              device.save().then(result => {
                 clearInterval(this.wifiLoop);
                 clearInterval(this.timeLoop);
                 innerAudioContext.stop();
-              }
+              });
+            } else {
+              console.log('继续验证wifi');
             }
-          })
-      }, 3000);
-      this.timeLoop = setInterval(() => {
-        var time = this.data.wifiTime;
-        if (this.data.wifiTime == 0) {
-          this.setData({
-            wifiStateCode: 503
-          });
-          clearInterval(this.wifiLoop);
-          clearInterval(this.timeLoop);
-          innerAudioContext.stop();
-        } else {
-          this.setData({
-            wifiTime: time - 1
-          })
-        }
-      }, 1000)
-    })
+          }
+        })
+    }, 3000);
+    this.timeLoop = setInterval(() => {
+      var time = this.data.wifiTime;
+      if (this.data.wifiTime == 0) {
+        this.setData({
+          wifiStateCode: 503
+        });
+        clearInterval(this.wifiLoop);
+        clearInterval(this.timeLoop);
+        innerAudioContext.stop();
+      } else {
+        this.setData({
+          wifiTime: time - 1
+        })
+      }
+    }, 1000)
     innerAudioContext.onError((res) => {
       console.log(res.errMsg)
       console.log(res.errCode)
     })
   },
-  preePass() {
-    var sn = this.data.sn;
-    new AV.Query('OQC')
-      .equalTo('deviceSN', sn)
-      .first()
-      .then(device => {
-        if (device) {
-          const isPass = device.get('isPass');
-          if (isPass == 1) {
-            console.log('设备已验证通过，请勿重复验证');
-            this.setData({
-              passStateCode: 201,
-            })
-          } else {
-            device.set('isPass', 1);
-            return device.save().then(device => {
-              this.setData({
-                passStateCode: 200,
-              })
-            });
-          }
-        }
-      })
-  }
 })

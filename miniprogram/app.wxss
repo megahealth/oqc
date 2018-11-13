@@ -8,9 +8,13 @@
 } 
 
 .text-success {
-  color: #09bb07;
+  color: #09bb07 !important;
 }
 
 .text-danger {
-  color: #e64340;
+  color: #e64340 !important;
+}
+
+.h3 {
+  font-size: 18px !important;
 }

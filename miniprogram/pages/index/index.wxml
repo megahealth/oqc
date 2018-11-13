@@ -12,8 +12,15 @@
       </view>
     </view>
     <view wx:if="{{sn}}" class='progress'>
-      <view class='step'>
-        <text class="num {{currentStep>=1?'steped':''}}">①</text>
+      <view class='step' wx:if="{{currentStep==1}}">
+        <text class="num {{currentStep==1?'steped':''}}">①</text>
+        <view class='body'>
+          <button class='btn' type="primary" bindtap='recheck'>重新检测</button>
+          <text class='info'>设备{{sn}}已通过检测</text>
+        </view>
+      </view>
+      <view class='step' wx:if="{{currentStep>=2}}">
+        <text class="num {{currentStep>=2?'steped':''}}">①</text>
         <view class='body'>
           <text>开始检测设备</text>
           <text class='info'>{{sn}}</text>
@@ -48,11 +55,9 @@
       <view class='step'>
         <text class='num {{currentStep>=4?"steped":""}}'>④</text>
         <view class='body'>
-          <button class='btn' disabled wx:if="{{currentStep<4}}">确认通过</button>
-          <button class='btn' bindtap='preePass' wx:if="{{currentStep===4}}" type='primary'>确认通过</button>
-          <text class='info' wx:if="{{passStateCode===0}}">待完成检测</text>
-          <text class='info' wx:if="{{passStateCode===200}}">设备验证通过！请继续检测</text>
-          <text class='info' wx:if="{{passStateCode===201}}">设备已验证通过！请勿重复检测</text>
+          <text>检测结果</text>
+          <text class='info' wx:if="{{currentStep<4}}">请完成M26和WiFi检测</text>
+          <text class='info text-success h3' wx:if="{{currentStep===4}}">设备验证通过！请继续检测</text>
         </view>
       </view>
     </view>
