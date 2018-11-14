@@ -129,10 +129,13 @@ Page({
           const isMobileEnabled = device.get('isMobileEnabled');
           if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
             console.log('m26验证通过');
-            this.setData({
-              stateCode: 200,
-              currentStep: 3
-            })
+            device.set('step', 3);
+            device.save().then(result => {
+              this.setData({
+                stateCode: 200,
+                currentStep: 3
+              });
+            });
           } else {
             console.log('验证失败，尝试轮询验证');
             console.log(radarStatus);
@@ -166,10 +169,13 @@ Page({
                       const isMobileEnabled = device.get('isMobileEnabled');
                       if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
                         console.log('m26验证通过');
-                        this.setData({
-                          stateCode: 200,
-                          currentStep: 3
-                        })
+                        device.set('step', 3);
+                        device.save().then(result => {
+                          this.setData({
+                            stateCode: 200,
+                            currentStep: 3
+                          });
+                        });
                         clearInterval(this.loop);
                       } else {
                         console.log('第' + this.data.time + '次重试验证失败');
@@ -213,12 +219,13 @@ Page({
                       const isMobileEnabled = device.get('isMobileEnabled');
                       if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
                         console.log('m26验证通过');
-                        this.setData({
-                          stateCode: 200,
-                          currentStep: 3
-                        });
                         device.set('step', 3);
-                        device.save();
+                        device.save().then(result => {
+                          this.setData({
+                            stateCode: 200,
+                            currentStep: 3
+                          });
+                        });
                         clearInterval(this.loop);
                       } else {
                         console.log('第' + this.data.time + '次重试验证失败');
@@ -256,15 +263,15 @@ Page({
             const isWifiEnabled = device.get('isWifiEnabled');
             if (isWifiEnabled == 1) {
               console.log('设备wifi验证通过');
-              this.setData({
-                wifiStateCode: 200,
-                currentStep: 4,
-                wifiTime: 120,
-                isAudioPlay: false
-              }),
-                device.set('step', 4);
+              device.set('step', 4);
               device.set('isPass', 1);
               device.save().then(result => {
+                this.setData({
+                  wifiStateCode: 200,
+                  currentStep: 4,
+                  wifiTime: 120,
+                  isAudioPlay: false
+                }),
                 clearInterval(this.wifiLoop);
                 clearInterval(this.timeLoop);
                 innerAudioContext.stop();
