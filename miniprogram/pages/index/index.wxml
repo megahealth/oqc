@@ -55,9 +55,18 @@
       <view class='step'>
         <text class='num {{currentStep>=4?"steped":""}}'>④</text>
         <view class='body'>
+          <button class='btn' wx:if="{{currentStep<4}}" disabled>确认按键</button>
+          <button class='btn' wx:if="{{currentStep>=4}}" type="primary" bindtap='pressBtn'>确认按键</button>
+          <text class='info' wx:if="{{pressStateCode===0}}">请确认设备按键可用</text>
+          <text class='info' wx:if="{{pressStateCode===200}}">已确认按键可用</text>
+        </view>
+      </view>
+      <view class='step'>
+        <text class='num {{currentStep>=5?"steped":""}}'>⑤</text>
+        <view class='body'>
           <text>检测结果</text>
-          <text class='info' wx:if="{{currentStep<4}}">请完成M26和WiFi检测</text>
-          <text class='info text-success h3' wx:if="{{currentStep===4}}">设备验证通过！请继续检测</text>
+          <text class='info' wx:if="{{currentStep<5}}">请依次完成M26、WiFi和按键检测</text>
+          <text class='info text-success h3' wx:if="{{currentStep===5}}">设备验证通过！请继续检测</text>
         </view>
       </view>
     </view>

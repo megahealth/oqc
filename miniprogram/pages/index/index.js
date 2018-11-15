@@ -24,7 +24,7 @@ Page({
     time: 0,
     stateCode: 0,
     wifiStateCode: 0,
-    passStateCode: 0,
+    pressStateCode: 0,
     isAudioPlay: false,
     currentStep: 1,
     wifiTime: 120
@@ -39,7 +39,7 @@ Page({
       time: 0,
       stateCode: 0,
       wifiStateCode: 0,
-      passStateCode: 0,
+      pressStateCode: 0,
       isAudioPlay: false,
       currentStep: 2,
       wifiTime: 120
@@ -65,12 +65,12 @@ Page({
                 this.setData({
                   currentStep: 2,
                 })
-              } else if (step == 4) {
+              } else if (step == 5) {
                 this.setData({
                   currentStep: 1,
                   id: id
                 })
-              } else if (step==1||step==2||step==3) {
+              } else if (step == 1 || step == 2 || step == 3||step == 4) {
                 let device = AV.Object.createWithoutData('OQC', id);
                 device.destroy().then(success => {
                   this.setData({
@@ -264,7 +264,6 @@ Page({
             if (isWifiEnabled == 1) {
               console.log('设备wifi验证通过');
               device.set('step', 4);
-              device.set('isPass', 1);
               device.save().then(result => {
                 this.setData({
                   wifiStateCode: 200,
@@ -302,4 +301,21 @@ Page({
       console.log(res.errCode)
     })
   },
+  pressBtn() {
+    let sn = this.data.sn;
+    new AV.Query('OQC')
+      .equalTo('deviceSN', sn)
+      .first()
+      .then(device => {
+        device.set('step', 5);
+        device.set('isPass', 1);
+        return device.save().then(success => {
+          this.setData({
+            currentStep: 5,
+            pressStateCode: 200,
+            isPass: 1
+          });
+        });
+      })
+  }
 })

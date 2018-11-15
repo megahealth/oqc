@@ -29,7 +29,7 @@ page {
 }
 
 .progress .step {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .progress .step .num {
@@ -62,7 +62,7 @@ page {
 .progress .step .body .info {
   display: block;
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 3px;
   color: #666;
 }
 
