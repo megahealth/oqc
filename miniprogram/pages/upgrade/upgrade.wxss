@@ -1,0 +1,90 @@
+/* miniprogram/pages/upgrade/upgrade.wxss */
+
+.upgrade {
+  margin-top: 40px;
+  width: 150px;
+}
+
+/* #upgradeInfo {
+  position:absolute;
+  top:10%;
+  transition:translate(0,-50%);
+  width:80%;
+  height:60%;
+  background:#fff;
+  box-shadow:1px 4px 8px #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 14px;
+} */
+
+.btm {
+  position: fixed;
+  bottom: 0;
+  height: 56px;
+  background: rgb(234, 237, 240);
+  width: 100%;
+  padding-top: 10px;
+}
+
+.btm button {
+  width: 70%;
+}
+
+.table .tr {
+  padding:10px;
+  margin-bottom:10px;
+  background: #eee;
+}
+
+.table .tr .index {
+  background: green;
+  width: 20px;
+  text-align: center;
+  border-radius: 3px;
+  display: inline-block;
+  color: #fff;
+}
+
+.table .tr .sn {
+  padding: 0 10px;
+}
+
+.table .tr .version {
+  float: right;
+}
+
+.table .tr .offline {
+  background: #666;
+  text-align: center;
+  border-radius: 3px;
+  display: inline-block;
+  color: #fff;
+}
+
+.table .tr .online {
+  background: #27c24c;
+  text-align: center;
+  border-radius: 3px;
+  display: inline-block;
+  color: #fff;
+}
+
+.table .tr .updating {
+  background: #23b7e5;
+  text-align: center;
+  border-radius: 3px;
+  display: inline-block;
+  color: #fff;
+}
+
+.table .tr .btn {
+  width: 50%;
+  text-align: center;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.table .tr .btn button {
+  width: 80%;
+}

@@ -18,7 +18,7 @@ const app = getApp()
 
 Page({
   data: {
-    sn: '',
+    sn: '',  
     id: '',
     isPass: '',
     time: 0,
@@ -243,7 +243,7 @@ Page({
   configNet() {
     const innerAudioContext = wx.createInnerAudioContext();
     innerAudioContext.autoplay = true
-    innerAudioContext.src = 'cloud://oqc-d93079.6f71-oqc-d93079/confignet2.m4a'
+    innerAudioContext.src = 'cloud://oqc-d93079.6f71-oqc-d93079/confignet.m4a'
     innerAudioContext.loop = true
     innerAudioContext.onPlay(() => {
       console.log('播放一次');

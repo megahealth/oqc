@@ -1,0 +1,10 @@
+@import "../../libs/weui.wxss";
+
+.page-body {
+  padding: 20px;
+}
+
+.page-section{
+  margin-bottom: 100rpx;
+
+}

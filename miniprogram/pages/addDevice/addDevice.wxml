@@ -1,0 +1,43 @@
+<view class="page-body" wx:if="{{hasLogIn}}">
+  <view class="page-section">
+    <view>
+      <text>当前机构：【{{orgName}}】</text>
+      <text bindtap="logOut" style='float:right;color:blue'>更换机构</text>
+    </view>
+    <button type="default" hover-class="other-button-hover" bindtap="scanCode"> 扫描设备 </button>
+    <text>设备号：{{sn}}</text>
+  </view>
+  <view class="page-section">
+    <view class="weui-cells__title">输入用户名</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="bindLastName" value="{{lastName}}" placeholder="姓氏"/>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="bindFirstName" value="{{firstName}}" placeholder="名字"/>
+      </view>
+    </view>
+    <view class="weui-cells__title">输入手机号</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" bindinput="bindPhoneNumber" value="{{phoneNumber}}" placeholder="手机号"/>
+      </view>
+    </view>
+  </view>
+  <view class="page-section">
+    <button type="primary" bindtap="addDevice" hover-class="other-button-hover"> 保存设备 </button>
+  </view>
+</view>
+<view class="page-body" wx:if="{{!hasLogIn}}">
+  <view class="page-section">
+    <view class="weui-cells__title">输入机构ID以登录</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" style='width:100%' bindinput="bindIdBaseOrg" value="{{idBaseOrg}}" placeholder="ID"/>
+      </view>
+    </view>
+  </view>
+  <view class="page-section">
+    <button type="primary" bindtap="logIn" hover-class="other-button-hover"> 登 录 </button>
+  </view>
+</view>

@@ -1,0 +1,30 @@
+<view style='padding:10px;'>
+  <text>固件最新版本（{{latestVersion}}）</text>
+  <view class='table'>
+    <view wx:for="{{deviceList}}" wx:for-index="index" wx:for-item="item" wx:key="{{index}}" class="tr">
+      <text class="index">{{index+1}}</text>
+      <text class="sn">{{item.sn}}</text>
+      <text wx:if="{{item.workStatus!=1}}" class="offline">未连接</text>
+      <view wx:if="{{item.workStatus==1}}" class="online">
+        已连接 
+        <text wx:if="{{item.networkType==0}}"> - cellular</text>
+        <text wx:if="{{item.networkType==1}}"> - wifi</text>
+      </view>
+      <text wx:if="{{item.version==latestVersion}}" class="version">最新版</text>
+      <text wx:if="{{item.version!=latestVersion}}" class="version">{{item.version}}</text>
+      <view class='btn'>
+        <button class="td"  wx:if="{{item.version==latestVersion}}" disabled>升级成功</button>
+        <button class="td"  wx:if="{{item.version<latestVersion&&item.isAutoUpdate==0}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary">升级</button>
+        <button class="td"  wx:if="{{item.version<latestVersion&&item.isAutoUpdate==1}}" type="primary" disabled>正在升级</button>
+      </view>
+      <view class='btn'>
+        <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{item.version==latestVersion}}">删除</button>
+        <button class="td" disabled  wx:if="{{item.version<latestVersion}}">删除</button>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='btm'>
+  <button wx:if="{{upgradeCode==0}}" type="primary" bindtap="addDevice">添 加 设 备</button>
+  <button wx:if="{{upgradeCode!=0}}" type="primary" bindtap="addDevice">继续升级其他设备</button>
+</view>

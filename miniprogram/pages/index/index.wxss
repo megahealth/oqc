@@ -13,10 +13,9 @@ page {
 .btm {
   position: absolute;
   bottom: 0;
-  height: 15%;
   background: rgb(234, 237, 240);
   width: 100%;
-  padding-top: 10%;
+  padding: 10px 0;
 }
 
 .btm button {

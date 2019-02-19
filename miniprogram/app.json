@@ -1,10 +1,34 @@
 {
   "cloud": true,
   "pages": [
-    "pages/index/index"
+    "pages/upgrade/upgrade",
+    "pages/index/index",
+    "pages/addDevice/addDevice"
   ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/addDevice/addDevice",
+        "text": "添加设备",
+        "iconPath": "images/add.png",
+        "selectedIconPath": "images/add1.png"
+      },
+      {
+        "pagePath": "pages/upgrade/upgrade",
+        "text": "升级固件",
+        "iconPath": "images/upgrade.png",
+        "selectedIconPath": "images/upgrade1.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "出货检验",
+        "iconPath": "images/oqc.png",
+        "selectedIconPath": "images/oqc1.png"
+      }
+    ]
+  },
   "window": {
-    "backgroundColor": "#FFF",
+    "backgroundColor": "#eee",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FFF",
     "navigationBarTitleText": "兆观·OQC",

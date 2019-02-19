@@ -4,6 +4,7 @@ App({
     const AV = require('./libs/av-weapp-min.js');
     const APP_ID = 'F9tyT5VsLXLCAqxKvTHqzmvP-gzGzoHsz';
     const APP_KEY = '17eIyz42rRL1YubtKE5MgLHm';
+    const Chance = './libs/chance.min.js';
 
     AV.init({
       appId: APP_ID,
