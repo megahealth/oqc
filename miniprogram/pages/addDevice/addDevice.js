@@ -104,7 +104,7 @@ Page({
       let idBaseOrgPointer = AV.Object.createWithoutData('BaseOrganizations', idBaseOrg);
       new AV.Query('Device')
         .equalTo('deviceSN', sn)
-        .equalTo('idBaseOrg', idBaseOrgPointer)
+        // .equalTo('idBaseOrg', idBaseOrgPointer)
         .first()
         .then(device => {
           if (device) {

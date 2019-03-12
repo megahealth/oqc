@@ -5,21 +5,22 @@
       <text class="index">{{index+1}}</text>
       <text class="sn">{{item.sn}}</text>
       <text wx:if="{{item.workStatus!=1}}" class="offline">未连接</text>
-      <view wx:if="{{item.workStatus==1}}" class="online">
-        已连接 
-        <text wx:if="{{item.networkType==0}}"> - cellular</text>
-        <text wx:if="{{item.networkType==1}}"> - wifi</text>
+      <view wx:if="{{item.workStatus==1}}" class="online"> 
+        <text wx:if="{{item.networkType==0}}">GPRS</text>
+        <text wx:if="{{item.networkType==1}}">WiFi</text>
       </view>
       <text wx:if="{{item.version==latestVersion}}" class="version">最新版</text>
       <text wx:if="{{item.version!=latestVersion}}" class="version">{{item.version}}</text>
       <view class='btn'>
-        <button class="td"  wx:if="{{item.version==latestVersion}}" disabled>升级成功</button>
-        <button class="td"  wx:if="{{item.version<latestVersion&&item.isAutoUpdate==0}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary">升级</button>
-        <button class="td"  wx:if="{{item.version<latestVersion&&item.isAutoUpdate==1}}" type="primary" disabled>正在升级</button>
+        <button class="td"  wx:if="{{item.workStatus==1&&item.version==latestVersion}}" disabled>升级成功</button>
+        <button class="td"  wx:if="{{item.workStatus==1&&item.version<latestVersion&&item.isAutoUpdate==0&&item.networkType==1}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary">升级</button>
+        <button class="td"  wx:if="{{item.workStatus==1&&item.version<latestVersion&&item.isAutoUpdate==0&&item.networkType==0}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary" disabled>升级</button>
+        <button class="td"  wx:if="{{item.workStatus==1&&item.version<latestVersion&&item.isAutoUpdate==1}}" type="primary" disabled>正在升级</button>
+        <button class="td"  wx:if="{{(item.workStatus==0||item.workStatus==2)&&item.isAutoUpdate==1}}" type="primary" disabled>已开启升级</button>
       </view>
       <view class='btn'>
-        <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{item.version==latestVersion}}">删除</button>
-        <button class="td" disabled  wx:if="{{item.version<latestVersion}}">删除</button>
+        <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{!(item.workStatus==1&&item.version<latestVersion&&item.isAutoUpdate==1)}}">删除</button>
+        <button class="td" disabled  wx:if="{{item.workStatus==1&&item.version<latestVersion&&item.isAutoUpdate==1}}">删除</button>
       </view>
     </view>
   </view>

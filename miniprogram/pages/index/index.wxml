@@ -3,7 +3,7 @@
   <view class='body'>
     <view class='welcome' wx:if="{{!sn}}">
       <image style="width: 100px; height: 100px;" src="../../images/oqc.jpg"></image>
-      <text class='title'>兆观睡眠仪出货品质检验工具</text>
+      <text class='title'>兆观睡眠仪出货品质检验工具 v3.1.7</text>
       <text class='step-title'>检测步骤</text>
       <view class='step-items'>
         <text>1. 给设备上电</text>
