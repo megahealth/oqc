@@ -8,8 +8,8 @@ Page({
     latestVersion: ''
   },
   onLoad: function (options) {
-    new AV.Query('RkDeviceVersion')
-      .first()
+    new AV.Query('RkDeviceVersionForTest')
+      .get('5af3c5ecac502e607660dbfa')
       .then(version => {
         this.setData({
           latestVersion: version.get('versionNum'),

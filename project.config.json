@@ -11,6 +11,8 @@
 	"appid": "wxb1c52a10a6f18141",
 	"projectname": "OQC",
 	"libVersion": "2.2.5",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

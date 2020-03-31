@@ -33,5 +33,6 @@
     "navigationBarBackgroundColor": "#FFF",
     "navigationBarTitleText": "兆观·OQC",
     "navigationBarTextStyle": "black"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
