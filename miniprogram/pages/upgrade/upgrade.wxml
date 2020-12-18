@@ -19,8 +19,8 @@
         <button class="td" wx:if="{{(item.workStatus==0||item.workStatus==2)&&item.isAutoUpdate==1}}" type="primary" disabled>已开启升级</button>
       </view>
       <view class='btn'>
-        <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{!(item.workStatus==1&&item.needUpdate===1&&item.isAutoUpdate==1)}}">删除</button>
-        <button class="td" disabled  wx:if="{{item.workStatus==1&&item.needUpdate===1&&item.isAutoUpdate==1}}">删除</button>
+        <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{!(item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==1)}}">删除</button>
+        <button class="td" disabled  wx:if="{{item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==1}}">删除</button>
       </view>
     </view>
   </view>
