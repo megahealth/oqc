@@ -1,7 +1,7 @@
 <view style='padding:10px;'>
   <text>固件最新版本（{{latestVersion}}）</text>
   <view class='table'>
-    <view wx:for="{{deviceList}}" wx:for-index="index" wx:for-item="item" wx:key="{{index}}" class="tr">
+    <view wx:for="{{deviceList}}" wx:for-index="index" wx:for-item="item" wx:key="sn" class="tr">
       <text class="index">{{index+1}}</text>
       <text class="sn">{{item.sn}}</text>
       <text wx:if="{{item.workStatus!=1}}" class="offline">未连接</text>

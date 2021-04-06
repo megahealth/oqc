@@ -27,7 +27,21 @@ Page({
     pressStateCode: 0,
     isAudioPlay: false,
     currentStep: 1,
-    wifiTime: 120
+    wifiTime: 120,
+    array: [{
+      id: 0,
+      value: 0,
+      name: '旧版',
+      appid: 'F9tyT5VsLXLCAqxKvTHqzmvP-gzGzoHsz',
+      appkey: '17eIyz42rRL1YubtKE5MgLHm'
+    }, {
+      id: 1,
+      value: 1,
+      name: '新版',
+      appid: 'kHKidLm5ewtXeVffazOMUpJw-9Nh9j0Va',
+      appkey: 'nS05D0LMaYmsWf1Q6hPXzNVh'
+    }],
+    index: 0
   },
   onLoad() {
     console.log(this.data.currentStep);
@@ -317,5 +331,16 @@ Page({
           });
         });
       })
+  },
+  bindPickerChange(e) {
+    const ind = e.detail.value;
+    this.setData({
+      index: ind
+    })
+    AV.applicationId = undefined;
+    AV.init({
+      appId: this.data.array[ind].appid,
+      appKey: this.data.array[ind].appkey,
+    })
   }
 })

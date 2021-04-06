@@ -10,8 +10,20 @@
         <text>2. 等待3分钟至设备绿灯不再快速闪烁</text>
         <text>3. 开始扫码检测</text>
       </view>
+      <view class="choose-app">
+        <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="{{'name'}}">
+          <view class="picker">
+            当前环境：{{array[index].name}}
+          </view>
+        </picker>
+      </view>
     </view>
     <view wx:if="{{sn}}" class='progress'>
+      <picker class="env" bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="{{'name'}}">
+        <view class="picker">
+          当前环境：{{array[index].name}}
+        </view>
+      </picker>
       <view class='step' wx:if="{{currentStep==1}}">
         <text class="num {{currentStep==1?'steped':''}}">①</text>
         <view class='body'>

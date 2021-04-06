@@ -23,8 +23,12 @@ page {
 }
 
 .progress {
-  margin-top: 40px;
+  margin-top: 10px;
   padding: 10px;
+}
+
+.progress .env {
+  margin: 10px;
 }
 
 .progress .step {
@@ -92,8 +96,12 @@ page {
   margin-left:40px;
 }
 .welcome .step-items {
-  float:left;
   text-align:left;
   margin-left:40px;
   margin-top:20px;
+}
+
+.choose-app {
+  display: block;
+  margin-top: 50px;
 }
