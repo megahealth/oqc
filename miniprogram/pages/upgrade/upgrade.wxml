@@ -11,14 +11,14 @@
       </view>
       <text wx:if="{{item.needUpdate===0}}" class="version">最新版</text>
       <text wx:if="{{item.needUpdate!==0}}" class="version">{{item.version}}</text>
-      <view class='btn'>
+      <view class='btn-right'>
         <button class="td" wx:if="{{item.workStatus==1&&item.needUpdate===0}}" disabled>升级成功</button>
         <button class="td" wx:if="{{item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==0&&item.networkType==1}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary">升级</button>
         <button class="td" wx:if="{{item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==0&&item.networkType==0}}" data-id="{{item.id}}" bindtap="updateDevice" type="primary" disabled>升级</button>
         <button class="td" wx:if="{{item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==1}}" type="primary" disabled>正在升级</button>
         <button class="td" wx:if="{{(item.workStatus==0||item.workStatus==2)&&item.isAutoUpdate==1}}" type="primary" disabled>已开启升级</button>
       </view>
-      <view class='btn'>
+      <view class='btn-right'>
         <button class="td" type="warn" data-id="{{item.id}}" bindtap="deleteDevice" wx:if="{{!(item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==1)}}">删除</button>
         <button class="td" disabled  wx:if="{{item.workStatus==1&&item.needUpdate===-1&&item.isAutoUpdate==1}}">删除</button>
       </view>
@@ -28,4 +28,5 @@
 <view class='btm'>
   <button wx:if="{{upgradeCode==0}}" type="primary" bindtap="addDevice">添 加 设 备</button>
   <button wx:if="{{upgradeCode!=0}}" type="primary" bindtap="addDevice">继续升级其他设备</button>
+  <button wx:if="{{upgradeCode!=0}}" type="primary" bindtap="getFirmwareVersion">检测版本</button>
 </view>

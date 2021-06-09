@@ -80,6 +80,8 @@ Page({
         // this.setData({
         //   upgradeSn: res.result
         // });
+        console.log('xff',res);
+        
         let sn = res.result;
         let idBaseOrgPointer = AV.Object.createWithoutData('BaseOrganizations', '5c10b7000b61600067ea783b');
         new AV.Query('Device')
@@ -168,5 +170,52 @@ Page({
           })
         }
       })
+  },
+  getFirmwareVersion(){
+    wx.scanCode({
+      success: res=>{
+        wx.showLoading({
+          title: '检测中...',
+        })
+        let sn = res.result;
+        new AV.Query('Device')
+          .equalTo('deviceSN', sn)
+          .first()
+          .then(device=>{
+            wx.hideLoading()
+            if(device){
+              const sn = device.get('deviceSN') || '未知sn';
+              const versionNO = device.get('versionNO') || '无版本信息';
+              let networkType = device.get('networkType')
+              networkType = networkType == 1? 'wifi在线':(networkType == 0?'移动在线':'未知')
+              wx.showModal({
+                title: sn,
+                content: `在线：${networkType}，版本：${versionNO}`,
+                confirmText:'继续检测',
+                success:res=> {
+                  if (res.confirm) {
+                    this.getFirmwareVersion()
+                  } else if (res.cancel) {
+                  }
+                }
+              })
+            }else{
+              wx.showToast({
+                title: '检测失败，系统中不存在该设备！',
+                icon: "none",
+                duration: 2000
+              })
+            }
+          },error=>{
+            console.log('error',error);
+            wx.hideLoading()
+            wx.showToast({
+              title: '检测失败，发生未知错误！',
+              icon: "none",
+              duration: 2000
+            })
+          })
+      }
+    })
   }
 })

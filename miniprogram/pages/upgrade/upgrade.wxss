@@ -21,13 +21,14 @@
 .btm {
   position: fixed;
   bottom: 0;
-  height: 56px;
+  height: 132px;
   background: rgb(234, 237, 240);
   width: 100%;
   padding-top: 10px;
 }
 
 .btm button {
+  margin-bottom: 20px;
   width: 70%;
 }
 
@@ -78,7 +79,7 @@
   color: #fff;
 }
 
-.table .tr .btn {
+.table .tr .btn-right {
   width: 50%;
   text-align: center;
   display: inline-block;
