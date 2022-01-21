@@ -172,49 +172,91 @@ Page({
       })
   },
   getFirmwareVersion(){
+    const that = this;
     wx.scanCode({
       success: res=>{
         wx.showLoading({
           title: '检测中...',
         })
         let sn = res.result;
-        new AV.Query('Device')
-          .equalTo('deviceSN', sn)
-          .first()
-          .then(device=>{
-            wx.hideLoading()
-            if(device){
-              const sn = device.get('deviceSN') || '未知sn';
-              const versionNO = device.get('versionNO') || '无版本信息';
-              let networkType = device.get('networkType')
-              networkType = networkType == 1? 'wifi在线':(networkType == 0?'移动在线':'未知')
-              wx.showModal({
-                title: sn,
-                content: `在线：${networkType}，版本：${versionNO}`,
-                confirmText:'继续检测',
-                success:res=> {
-                  if (res.confirm) {
-                    this.getFirmwareVersion()
-                  } else if (res.cancel) {
+        if(sn){
+          wx.request({
+            url: `https://api-shcexam.megahealth.cn/1.1/classes/Device?where={"deviceSN":"${sn}"}`,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json', // 默认值
+              'X-LC-Id': 'kHKidLm5ewtXeVffazOMUpJw-9Nh9j0Va',
+              'X-LC-Key': 'nS05D0LMaYmsWf1Q6hPXzNVh',
+            },
+            data:{},
+            success (res) {
+              if(res.data&&res.data.results.length>0){
+                const device = res.data.results[0]
+                const currentSn = device.deviceSN || '未知sn';
+                const versionNO = device.versionNO || '无版本信息';
+                wx.request({
+                  method: 'GET',
+                  url: 'https://server-shcexam.megahealth.cn/redisApi/deviceDetail?sn='+sn,
+                  data: {},
+                  header: {
+                    'content-type': 'application/json',
+                  },
+                  success (workStatusRes){
+                    wx.hideLoading()
+                    const data = workStatusRes.data
+                    let workStatus = data.data.workStatus || '0'
+                    let networkType = data.data.networkType
+                    if(workStatus == '1'){
+                      networkType = networkType == 1? 'wifi':(networkType == 0?'移动':'未知')
+                    }else{
+                      networkType = '不在线'
+                    }
+                    wx.showModal({
+                      title: currentSn,
+                      content: `网络：${networkType}，版本：${versionNO}`,
+                      confirmText:'继续检测',
+                      success:res=> {
+                        if (res.confirm) {
+                          that.getFirmwareVersion()
+                        }
+                      }
+                    })
+                  },
+                  fail(error){
+                    console.log('error', error);
+                    wx.hideLoading();
+                    wx.showToast({
+                      title: '检测失败，请重试！',
+                      icon: "none",
+                      duration: 2000
+                    })
                   }
-                }
-              })
-            }else{
+                })
+              }else{
+                wx.hideLoading()
+                wx.showToast({
+                  title: '检测失败，系统中不存在该设备！',
+                  icon: "none",
+                  duration: 2000
+                })
+              }
+            },
+            fail(error){
+              wx.hideLoading();
               wx.showToast({
-                title: '检测失败，系统中不存在该设备！',
+                title: '检测失败，请重试！',
                 icon: "none",
                 duration: 2000
               })
             }
-          },error=>{
-            console.log('error',error);
-            wx.hideLoading()
-            wx.showToast({
-              title: '检测失败，发生未知错误！',
-              icon: "none",
-              duration: 2000
-            })
           })
+        }else{
+          wx.showToast({
+            title: '二维码不包含sn信息，无法检测！',
+            icon: "none",
+            duration: 3000
+          })
+        }
       }
     })
   }
