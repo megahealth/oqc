@@ -4,11 +4,13 @@ App({
     const AV = require('./libs/av-weapp-min.js');
     const APP_ID = 'F9tyT5VsLXLCAqxKvTHqzmvP-gzGzoHsz';
     const APP_KEY = '17eIyz42rRL1YubtKE5MgLHm';
+    const APP_URL = 'https://api-shc.megahealth.cn';
     const Chance = './libs/chance.min.js';
 
     AV.init({
       appId: APP_ID,
-      appKey: APP_KEY
+      appKey: APP_KEY,
+      serverURLs:APP_URL
     });
     
     if (!wx.cloud) {
