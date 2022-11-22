@@ -69,44 +69,55 @@ Page({
           sn: res.result
         });
         let sn = this.data.sn;
-        new AV.Query('OQC')
-          .equalTo('deviceSN', sn)
+        new AV.Query('DeviceSnMap')
+          .equalTo('S01D',sn)
           .first()
-          .then(device => {
-            if(device) {
-              let step = device.get('step');
-              console.log(step);
-              let id = device.get('objectId');
-              if (step == 0) { 
-                this.setData({
-                  currentStep: 2,
-                })
-              } else if (step == 5) {
-                this.setData({
-                  currentStep: 1,
-                  id: id
-                })
-              } else if (step == 1 || step == 2 || step == 3||step == 4) {
-                let device = AV.Object.createWithoutData('OQC', id);
-                device.destroy().then(success => {
-                  this.setData({
-                    currentStep: 2
-                  });
-                  console.log('无效记录删除成功');
-                });
-              }
-            } else {
-              let Device = new AV.Object.extend('OQC')
-              let device = new Device();
-              device.set('deviceSN', sn);
-              device.set('step', 2);
-              device.save().then(device => {
-                this.setData({
-                  currentStep: 2,
-                })
-              })
+          .then(deviceMap => {
+            if(deviceMap){
+              sn = deviceMap.get('J01A');
+              this.setData({
+                sn: deviceMap.get('J01A')
+              });
             }
-          })
+          new AV.Query('OQC')
+            .equalTo('deviceSN', sn)
+            .first()
+            .then(device => {
+              if(device) {
+                let step = device.get('step');
+                console.log(step);
+                let id = device.get('objectId');
+                if (step == 0) { 
+                  this.setData({
+                    currentStep: 2,
+                  })
+                } else if (step == 5) {
+                  this.setData({
+                    currentStep: 1,
+                    id: id
+                  })
+                } else if (step == 1 || step == 2 || step == 3||step == 4) {
+                  let device = AV.Object.createWithoutData('OQC', id);
+                  device.destroy().then(success => {
+                    this.setData({
+                      currentStep: 2
+                    });
+                    console.log('无效记录删除成功');
+                  });
+                }
+              } else {
+                let Device = new AV.Object.extend('OQC')
+                let device = new Device();
+                device.set('deviceSN', sn);
+                device.set('step', 2);
+                device.save().then(device => {
+                  this.setData({
+                    currentStep: 2,
+                  })
+                })
+              }
+            })
+          }).catch(console.error);
       }
     })
   },
@@ -132,6 +143,7 @@ Page({
       stateCode: 100
     });
     var sn = this.data.sn;
+    console.log("ccccccccccyyyyyyyyyy3",sn);
     new AV.Query('OQC')
       .equalTo('deviceSN', sn)
       .first()
@@ -169,7 +181,7 @@ Page({
                     stateCode: 101,
                     time: i
                   })
-                  // i++;
+                  
                   if (i == 40) {
                     clearInterval(this.loop);
                     console.log('超时失败');
