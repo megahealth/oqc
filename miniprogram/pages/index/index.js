@@ -143,7 +143,6 @@ Page({
       stateCode: 100
     });
     var sn = this.data.sn;
-    console.log("ccccccccccyyyyyyyyyy3",sn);
     new AV.Query('OQC')
       .equalTo('deviceSN', sn)
       .first()
@@ -271,7 +270,8 @@ Page({
   configNet() {
     const innerAudioContext = wx.createInnerAudioContext();
     innerAudioContext.autoplay = true
-    innerAudioContext.src = 'cloud://oqc-d93079.6f71-oqc-d93079/confignet4.m4a'
+    innerAudioContext.src = 'https://file-shc.megahealth.cn/ETRodIm64AQafg9OJYbM1I0MHOiF1k3e/confignet4.m4a'
+    // innerAudioContext.src = 'cloud://oqc-d93079.6f71-oqc-d93079/confignet4.m4a'
     innerAudioContext.loop = true
     innerAudioContext.onPlay(() => {
       console.log('播放一次');
