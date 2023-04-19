@@ -154,7 +154,8 @@ Page({
           const wifiMac = device.get('wifiMac');
           const workStatus = device.get('workStatus');
           const isMobileEnabled = device.get('isMobileEnabled');
-          if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+          // if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+          if (wifiMac && workStatus == 1 && radarStatus == 1) {
             console.log('m26验证通过');
             device.set('step', 3);
             device.save().then(result => {
@@ -194,7 +195,8 @@ Page({
                       const wifiMac = device.get('wifiMac');
                       const workStatus = device.get('workStatus');
                       const isMobileEnabled = device.get('isMobileEnabled');
-                      if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+                      // if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+                      if (wifiMac && workStatus == 1 && radarStatus == 1) {
                         console.log('m26验证通过');
                         device.set('step', 3);
                         device.save().then(result => {
@@ -244,7 +246,8 @@ Page({
                       const wifiMac = device.get('wifiMac');
                       const workStatus = device.get('workStatus');
                       const isMobileEnabled = device.get('isMobileEnabled');
-                      if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+                      // if (wifiMac && workStatus == 1 && radarStatus == 1 && isMobileEnabled == 1) {
+                      if (wifiMac && workStatus == 1 && radarStatus == 1) {
                         console.log('m26验证通过');
                         device.set('step', 3);
                         device.save().then(result => {
